@@ -23,7 +23,7 @@ Voyage AI is a comprehensive travel itinerary planner that offers a seamless use
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/paulkiat/VoyageAI.git
+   git clone https://github.com/paulkiat/Voyage.git
    cd VoyageAI
    ```
 
