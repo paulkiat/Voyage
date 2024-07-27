@@ -1,0 +1,48 @@
+# Variables
+NODE_MODULES := node_modules
+DIST := dist
+SRC := src
+JS_SRC := $(SRC)/js
+JS_DIST := $(DIST)/js
+
+# Targets
+.PHONY: all setup clean build serve deploy
+
+all: setup build serve
+
+# Install dependencies
+setup:
+	@echo "Installing dependencies..."
+	npm install
+
+# Clean the distribution directory
+clean:
+	@echo "Cleaning the dist directory..."
+	rm -rf $(DIST)
+	mkdir -p $(JS_DIST)
+
+# Build the project
+build: clean
+	@echo "Building the project..."
+	npx webpack --config webpack.config.js
+	npx workbox-cli generateSW workbox-config.js
+
+# Serve the project locally
+serve:
+	@echo "Starting the development server..."
+	npx http-server $(DIST) -p 8080
+
+# Deploy the project
+deploy:
+	@echo "Deploying the project..."
+	# Add deployment commands here (e.g., git push, scp, rsync, etc.)
+
+# Generate WebAssembly
+build-wasm:
+	@echo "Building WebAssembly module..."
+	emcc $(SRC)/wasm/module.c -o $(JS_DIST)/module.js -s MODULARIZE=1 -s EXPORTED_FUNCTIONS='["_your_function"]'
+
+# Watch for changes
+watch:
+	@echo "Watching for changes..."
+	npx webpack --config webpack.config.js --watch

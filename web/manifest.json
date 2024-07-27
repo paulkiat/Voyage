@@ -1,0 +1,22 @@
+{
+    "name": "AI Travel Companion",
+    "short_name": "Travel Companion",
+    "description": "Your AI assistant for planning and exploring travel destinations.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#F5F7FA",
+    "theme_color": "#4A90E2",
+    "id": "/?homescreen=1",
+    "icons": [
+        {
+            "src": "assets/images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
