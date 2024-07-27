@@ -3,25 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Powered Itinerary Planner</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AI Travel Companion</title>
+    <!-- Update Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <style>
+        /* Inlined critical CSS */
+        :root {
+            --primary-color: #4A90E2;
+            --background-color: #F5F7FA;
+            --text-color: #333333;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+        }
+        /* Add other critical styles here */
+    </style>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Link to manifest.json for PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4A90E2">
 </head>
 <body>
-    <div id="app">
-        <header>
-            <h1>AI-Powered Itinerary Planner</h1>
-        </header>
-        <main>
-            <section id="preferences-form">
-                <h2>Your Travel Preferences</h2>
-                <!-- Add form inputs for user preferences -->
-            </section>
-            <section id="recommended-itinerary">
-                <h2>Your Personalized Itinerary</h2>
-                <!-- Display recommended itinerary here -->
-            </section>
-        </main>
-    </div>
-    <script src="app.js"></script>
+    <header>
+        <h1>AI Travel Companion</h1>
+        <nav>
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#plan">Plan Trip</a></li>
+                <li><a href="#explore">Explore</a></li>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#alerts">Alerts</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="app">
+        <section id="home" class="section active">
+            <h2>Welcome to Your AI Travel Companion</h2>
+            <div class="stats">
+                <div class="stat">
+                    <span id="trip-count">0</span>
+                    <p>Trips Planned</p>
+                </div>
+                <div class="stat">
+                    <span id="satisfaction-score">0.0</span>
+                    <p>User Satisfaction</p>
+                </div>
+            </div>
+            <button id="start-planning">Start Planning Your Trip</button>
+        </section>
+
+        <section id="plan" class="section">
+            <h2>Plan Your Trip</h2>
+            <form id="trip-form">
+                <input type="text" id="destination" placeholder="Destination">
+                <input type="date" id="start-date">
+                <input type="date" id="end-date">
+                <input type="number" id="budget" placeholder="Budget">
+                <button type="submit">Generate Itinerary</button>
+            </form>
+            <div id="itinerary-result" class="result-card hidden"></div>
+        </section>
+
+        <section id="explore" class="section">
+            <h2>Explore Destinations</h2>
+            <div class="search-container">
+                <input type="text" id="explore-search" placeholder="Search destinations">
+                <button id="explore-button">Search</button>
+            </div>
+            <div id="explore-results" class="result-card hidden"></div>
+        </section>
+
+        <section id="profile" class="section">
+            <h2>Your Profile</h2>
+            <div class="profile-info">
+                <img id="user-avatar" src="assets/images/user_avatar.png" alt="User Avatar">
+                <div id="user-info"></div>
+            </div>
+            <button id="edit-profile">Edit Profile</button>
+        </section>
+
+        <section id="alerts" class="section">
+            <h2>Travel Alerts</h2>
+            <div class="alert-container"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 AI Travel Companion. All rights reserved.</p>
+    </footer>
+
+    <!-- <div id="loading-overlay" class="hidden">
+        <div class="spinner"></div>
+        <p id="loading-message">Loading...</p>
+    </div> -->
+
+    <script type="module" src="./core/main.js"></script>
 </body>
 </html>
