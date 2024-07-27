@@ -18,6 +18,7 @@ Voyage AI is a comprehensive travel itinerary planner that offers a seamless use
 - Git
 - A code editor (VSCode, Sublime Text, etc.)
 - A web browser
+- Node.js and npm (for backend)
 
 ### Installation
 
@@ -31,6 +32,13 @@ Voyage AI is a comprehensive travel itinerary planner that offers a seamless use
 
 3. Open `index.html` in your browser to view the application.
 
+4. For backend setup:
+   ```bash
+   cd backend
+   npm install
+   npm start
+   ```
+
 ### Usage
 
 - Navigate through different sections using the top navigation bar.
@@ -40,22 +48,62 @@ Voyage AI is a comprehensive travel itinerary planner that offers a seamless use
 
 ```
 VoyageAI/
-├── assets/
-│   ├── css/           # CSS styles for the application
+├── backend/
+│   ├── node_modules/   # Node.js modules
+│   ├── services/       # Backend services and logic
+│   │   ├── api.js
+│   │   ├── data-prep.js
+│   │   ├── deep-cfr-itinerary.js
+│   │   ├── deep-neuralnet.js
+│   │   ├── evaluator.js
+│   │   ├── gametree-traverse.js
+│   │   ├── linear-cfr.js
+│   │   ├── prio-replay-buff.js
+│   │   ├── realtime-data.js
+│   │   ├── ai-itinerary.py
+│   │   └── data-collect.py
+│   ├── index.js        # Main server file
+│   ├── package.json    # Node.js package configuration
+│   └── README.md       # Backend documentation
+├── web/
+│   ├── assets/
+│   │   ├── images/
+│   │   │   ├── icon-192x192.png
+│   │   │   ├── icon-512x512.png
+│   │   │   └── user_avatar.png
+│   ├── components/
+│   │   ├── navigation/
+│   │   │   ├── explorer.js
+│   │   │   ├── notifications.js
+│   │   ├── planning/
+│   │   │   ├── bookingEngine.js
+│   │   │   ├── itineraryOptimizer.js
+│   │   │   ├── trip-planner.js
+│   │   ├── shared/
+│   │   │   ├── modal.js
+│   │   │   ├── notifications.js
+│   │   ├── user/
+│   │   │   ├── profile-editor.js
+│   │   │   ├── userProfile.js
+│   │   │   ├── vacationPackages.js
+│   ├── core/
+│   │   ├── main.js
+│   │   ├── security-enhance.js
+│   │   ├── pwa.js
+│   │   ├── index.js
+│   ├── css/
 │   │   └── styles.css
-│   ├── images/        # Image assets for the application
-│   │   └── logo-128.png
-├── components/        # HTML components for each section
-│   ├── dashboard.html
-│   ├── profile.html
-│   ├── preferences.html
-│   ├── packages.html
-│   ├── custom-trip.html
-│   ├── support.html
-├── scripts/           # JavaScript files for functionality
-│   └── app.js
-├── index.html         # Main HTML file
-└── README.md          # Project documentation
+│   ├── src/
+│   │   └── wasm/
+│   │       └── module.c
+│   ├── utils/
+│   │   ├── api.js
+│   │   ├── state.js
+│   │   └── ws.js
+│   ├── index.html
+│   ├── manifest.json
+│   ├── service-worker.js
+│   └── README.md
 ```
 
 ### Testing
@@ -108,6 +156,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Inspired by modern travel planning applications.
 - Thanks to all contributors and users for their support and feedback.
+
+## Continuous Integration and Deployment
 
 **.github/workflows/deploy.yml:**
 
