@@ -124,7 +124,7 @@ class DeepCFRItineraryPlanner {
     return actionValues.map(v => reward + v - expectedValue);
   }
 
-  // Helper methods to be implemented
+  // todo: Helper methods to be implemented
   private isTerminal(state: ItineraryState): boolean { /* ... */ }
   private sampleAction(strategy: number[]): number { /* ... */ }
   private applyAction(state: ItineraryState, action: number): ItineraryState { /* ... */ }
@@ -144,7 +144,7 @@ interface PlannerConfig {
 }
 
 interface ItineraryState {
-  // Define the structure of your itinerary state
+  // todo: Define the structure of your itinerary state
 }
 
 interface AdvantageMemoryItem {
