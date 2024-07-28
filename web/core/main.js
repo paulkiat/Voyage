@@ -1,3 +1,4 @@
+import './index.js';
 import { SecurityEnhancedSPA } from './security-enhance.js';
 import { TripPlanner } from '../components/planning/trip-planner.js';
 import { Explorer } from '../components/navigation/explorer.js';
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new Explorer(app);
     new ProfileEditor(app);
 
-    initPWA();
+    initPWA(); // Initialize PWA
 
     // Lazy load notification module
     setTimeout(() => {

@@ -31,8 +31,8 @@
     <link rel="stylesheet" href="./css/styles.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- Link to manifest.json for PWA -->
-    <link rel="manifest" href="manifest.json">
+    <!-- Link to manifest.json for PWA
+    <link rel="manifest" href="manifest.json"> -->
     <meta name="theme-color" content="#4A90E2">
 </head>
 <body>
@@ -89,7 +89,7 @@
         <section id="profile" class="section">
             <h2>Your Profile</h2>
             <div class="profile-info">
-                <img id="user-avatar" src="assets/images/user_avatar.png" alt="User Avatar">
+                <img id="user-avatar" src="./assets/imgs/user_avatar.png" alt="User Avatar">
                 <div id="user-info"></div>
             </div>
             <button id="edit-profile">Edit Profile</button>
@@ -110,6 +110,8 @@
         <p id="loading-message">Loading...</p>
     </div> -->
 
-    <script type="module" src="./core/main.js"></script>
+    <script type="module" src="./core/index.js" defer></script>
+    <script type="module" src="./core/main.js" defer></script>
+    
 </body>
 </html>

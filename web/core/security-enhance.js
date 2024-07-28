@@ -1,17 +1,10 @@
-import DOMPurify from 'dompurify';
-import { SPA } from './index.js';
+import DOMPurify from 'dompurify'; // Correct the path
+import { SPA } from './spa.js'; // Correct the path
 
 export class SecurityEnhancedSPA extends SPA {
     constructor() {
         super();
-        this.routes = {};
-        this.currentComponent = null;
-        this.loadingOverlay = document.getElementById('loading-overlay');
-        this.loadingMessage = document.getElementById('loading-message');
         this.sanitizer = DOMPurify;
-        this.initRoutes();
-        this.initNav();
-        this.showComponent('home');
     }
 
     sanitizeInput(input) {
@@ -19,12 +12,16 @@ export class SecurityEnhancedSPA extends SPA {
     }
 
     showLoading(message = 'Loading...') {
-        this.loadingMessage.textContent = this.sanitizeInput(message);
-        this.loadingOverlay.classList.remove('hidden');
+        if (this.loadingMessage && this.loadingOverlay) {
+            this.loadingMessage.textContent = this.sanitizeInput(message);
+            this.loadingOverlay.classList.remove('hidden');
+        }
     }
 
     hideLoading() {
-        this.loadingOverlay.classList.add('hidden');
+        if (this.loadingOverlay) {
+            this.loadingOverlay.classList.add('hidden');
+        }
     }
 
     updateUserInfo(name, email, bio) {
