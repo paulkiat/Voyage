@@ -383,6 +383,12 @@ footer {
     transition: background-position var(--transition-speed) ease;
 }
 
+.normal-mapped {
+    background-image: url('path/to/normal-map.png'); /* Normal Mapping for UI Elements */
+    background-size: cover;
+    transition: background-position var(--transition-speed) ease;
+}
+
 .normal-mapped:hover {
     background-position: center;
 }
@@ -411,95 +417,6 @@ footer {
 .interactive-feedback:active {
     transform: translateY(2px); /* Interactive Feedback */
     background-color: var(--primary-color);
-}
-
-/* Update existing classes with predictive value concepts */
-button {
-    background-color: var(--secondary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; /* Real-time Calculation */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-button:hover {
-    background-color: #45C1A8;
-    transform: translateY(-3px) translateZ(10px); /* Responsive Animations */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-button:focus {
-    outline: var(--focus-outline);
-}
-
-section {
-    margin-bottom: 2rem;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform var(--transition-speed) ease-in-out, opacity var(--transition-speed) ease-in-out; /* Real-time Calculation */
-    background: linear-gradient(145deg, #f0f0f0, #fafafa); /* Dynamic Lighting Effects */
-    transform-style: preserve-3d;
-    animation: rotateToUser var(--transition-speed) ease-in-out; /* Keyframes for Animations */
-    transform: translateZ(50px); /* Move section closer to user */
-}
-
-section:hover {
-    transform: scale(1.02) rotateY(5deg) translateZ(0); /* Real-time Calculation */
-    opacity: 0.9;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    transition: background-color var(--transition-speed) ease, transform var (--transition-speed) ease; /* Real-time Calculation */
-}
-
-nav ul li a:hover, nav ul li a.active {
-    background-color: var(--contrast-color);
-    color: var(--primary-color);
-    transform: scale(1.1); /* Real-time Calculation */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.rating {
-    font-size: 2rem;
-    color: #f1c40f;
-    margin: 1rem 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.star {
-    cursor: pointer;
-    transition: color var(--transition-speed) ease; /* Real-time Calculation */
-    animation: rotateToUser var(--transition-speed) ease-in-out; /* Keyframes for Animations */
-}
-
-.star:hover, .star.active {
-    color: #f39c12;
-}
-
-.spinner {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite; /* Real-time Calculation */
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg) translateZ(0); }
-    100% { transform: rotate(360deg) translateZ(0); }
 }
 
 .vector-arrow {
