@@ -1,0 +1,11 @@
+EMCC = emcc
+SRC = src/button.cpp src/popup.cpp src/ui_component.cpp
+OUT = web/popup.js
+
+all: $(OUT)
+
+$(OUT): $(SRC)
+	$(EMCC) $(SRC) -o $(OUT) -s WASM=1 --bind
+
+clean:
+	rm -f $(OUT) web/popup.wasm
