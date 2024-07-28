@@ -1,3 +1,30 @@
+/* Add this to your styles.css */
+.dynamic-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease; /* Real-time Calculation */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dynamic-button:hover, .dynamic-button.hot {
+    background-color: #45C1A8;
+    transform: translateY(-3px) translateZ(10px); /* Responsive Animations */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.dynamic-button:focus {
+    outline: var(--focus-outline);
+}
+
+.dynamic-button:active, .dynamic-button.active {
+    transform: translateY(2px); /* Real-time Calculation */
+    background-color: var(--primary-color);
+}
+
 :root {
     --primary-color: #4A90E2;
     --secondary-color: #50E3C2;
