@@ -1,0 +1,99 @@
+@import url('./lib/common.css');
+
+@media (prefers-color-scheme: dark) {
+    #edit-mode button.selected {
+        color: black !important;
+    }
+}
+
+button:disabled {
+    color: #888 !important;
+}
+
+#header {
+    background-image: url('img/morfius-banner.jpg');
+}
+
+#welcome {
+    align-items: center;
+}
+
+#welcome input {
+    text-align: center;
+}
+
+#welcome input.flash {
+    background-color: #cce !important;
+}
+
+#org {
+    flex-grow: 1;
+    border-radius: 10px;
+    background-color: #eee;
+    padding: 10px;
+    /* display: flex; */
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#org hr {
+    width: 100%;
+}
+
+#app-create, #user-create {
+    flex-direction: row;
+    align-items: center;
+}
+
+#edit-mode, #edit-mode > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#edit-mode button.selected {
+    background-color: #8da !important;
+}
+
+#login {
+    display: grid;
+    align-items: center;
+    justify-content: flex-start;
+    grid-template-columns: 1fr 3fr;
+}
+
+#login-error {
+    justify-content: center;
+    background: rgba(255, 0, 0, 0.25);
+    border-radius: 3px;
+    font-size: larger;
+    padding: 8px;
+}
+
+#login-init {
+    display: contents;
+}
+
+/* table data */
+
+#user-list {
+    grid-template-columns: 1fr 150px 150px;
+}
+
+#user-list label {
+    white-space: nowrap;
+}
+
+#app-list {
+    grid-template-columns: 0.5fr 1fr 1fr 0.75fr 0.5fr 0.25fr 0.5fr;
+}
+
+#app-edit {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#app-edit > div {
+    display: contents;
+}

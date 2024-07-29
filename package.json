@@ -1,5 +1,22 @@
 {
   "dependencies": {
-    "dompurify": "^3.1.6"
-  }
+    "dompurify": "^3.1.6",
+    "express": "^4.19.2",
+    "level": "^8.0.1",
+    "ws": "^8.18.0",
+    "zeromq": "^6.0.0-beta.20"
+  },
+  "name": "voyage",
+  "version": "1.0.0",
+  "description": "Voyage AI is a comprehensive travel itinerary planner that offers a seamless user experience through a single-page application (SPA). This project leverages HTML, CSS, and vanilla JavaScript to dynamically load content and ensure smooth navigation without page reloads.",
+  "main": "service-worker.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

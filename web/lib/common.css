@@ -1,0 +1,240 @@
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: black !important;
+        color: white;
+    }
+
+    div, label, button, hr, input {
+        border-color: #333 !important;
+    }
+
+    input, button, textarea, select {
+        color: white !important;
+        background-color: #222 !important;
+        border: 1px solid #555 !important;
+    }
+
+    button:not(:disabled):hover {
+        background-color: #333 !important;
+        border: 1px solid #777 !important;
+    }
+
+    .table > .head > label {
+        background-color: #444 !important;
+    }
+
+    .table > .data > label {
+        background-color: black !important;
+    }
+
+    .table > .data:hover > label {
+        background-color: #333 !important;
+    }
+
+    .table > .data > label.flash {
+        background-color: #335 !important;
+    }
+
+    #modal {
+        background-color: rgba(0,0,0,0.75) !important;
+    }
+
+    #modal-title {
+        background-color:#222 !important;
+    }
+
+    #modal-content {
+        background-color: rgba(0,0,0,0.9) !important;
+    }
+
+    #hub, #org, #app {
+        background-color:#111 !important;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #2e2e2e;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #555;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #777;
+    }
+
+    ::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+}
+
+body {
+    border: 0;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+    gap: 10px;
+}
+
+div {
+    position: relative;
+    display: flex;
+    gap: 5px;
+}
+
+input, button, textarea, select {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 3px 5px 3px 5px;
+}
+
+button:disabled {
+    color: #888 !important;
+}
+
+#header {
+    height: 70px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+}
+
+/* flex utils */
+
+.row {
+    flex-direction: row;
+}
+
+.col {
+    flex-direction: column;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+/* table data */
+
+.table {
+    display: grid;
+    grid-gap: 5px;
+}
+
+.table > div {
+    display: contents;
+}
+
+.table > .head > label {
+    padding: 5px;
+    background-color: #ccc;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.table > .data > label {
+    padding: 5px;
+    background-color: white;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+}
+
+.table > .data > label {
+    display: flex;
+    align-items: center;
+}
+
+.table > .data:hover > label {
+    user-select: none;
+    background-color: #ddd;
+    transition: background-color 0.05s ease;
+}
+
+.table > .data > label.flash {
+    background-color: #cce  ;
+}
+
+.table .actions {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.table .actions button {
+    flex-grow: 1;
+}
+
+/* modal dialogs */
+
+#modal {
+    background-color: rgba(255,255,255,0.75);
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    display: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    min-height: 500px;
+}
+
+#modal.showing, #modal.showing {
+    display: flex !important;
+}
+
+#modal-title {
+    text-align: center;
+    justify-content: center;
+    border-bottom: 1px solid black;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color:#eee;
+}
+
+#modal-close {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    padding: 0 !important;
+    margin: 0;
+    bottom: 0;
+    right: 5px;
+    top: 0;
+}
+
+#modal-body {
+    flex-direction: column;
+}
+
+#modal-content {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(255,255,255,0.9);
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+#modal-content > div {
+    padding: 10px;
+}
+
+#modal-content .hidden {
+    display: none;
+}
+
+#modal-footer {
+    justify-content: flex-end;
+}
