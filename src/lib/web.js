@@ -1,12 +1,13 @@
 /**
- * init + configs all back end web servers
- * 
- * looks for admn/app/web/ws/wss
- * 
- * 
+ * Startup wrapper for all backend web servers for AI Travel Companion
+ *
+ * Looks for adm/app/web/ws/wss handlers and attaches them
+ * Provides secure and insecure web and WebSocket servers
  */
+
+const ms_days_330 = 330 * 24 * 60 * 60 * 1000;
 const util = require('../lib/util');
-const log = util.logpre('travel');
+const log = util.logpre('web');
 const path = require('path');
 const http = require('http');
 const https = require('https');
@@ -14,50 +15,53 @@ const WebSocket = require('ws');
 const crypto = require('../lib/crypto');
 const servers = {};
 
-const MS_DAYS_300 = 300 * 24 * 60 * 60 * 1000;
-
-async function startServer(state) {
+async function startWebListeners(state) {
     if (!https) {
-        return log('HTTPS support is missing');
+        return log('missing https support');
     }
-
     const {
         meta,
-        adminHandler,
-        appHandler,
+        admHandler,
         webHandler,
-        wsHandler,
-        wssHandler
+        appHandler,
+        wssHandler,
+        wsHandler
     } = state;
 
-    if (adminHandler) {
-        log({ startAdminListener: state.adminPort });
-        servers.admin = http.createServer(adminHandler).listen(state.adminPort, 'localhost');
+    // Admin web port listens only locally
+    if (admHandler) {
+        log({ startAdmListener: state.admPort });
+        servers.adm = http.createServer(admHandler).listen(state.admPort, 'localhost');
     }
 
+    // App web port listens to http, but should only allow requests
+    // from localhost or the organizational web proxy
     if (state.appPort !== undefined && appHandler) {
         servers.app = http.createServer(appHandler).listen(state.appPort);
         state.appPort = servers.app.address().port;
         log({ startAppListener: state.appPort });
     }
 
+    // Start insecure WebSocket handler (for internal app server)
     if (wsHandler && servers.app) {
-        const wsServer = servers.ws = new WebSocket.Server({ server: servers.app });
-        wsServer.on('connection', wsHandler);
-        wsServer.on('error', error => {
-            log({ wsServerError: error });
+        const wss = servers.ws = new WebSocket.Server({ server: servers.app });
+        wss.on('connection', wsHandler);
+        wss.on('error', error => {
+            log({ wsServError: error });
         });
     }
 
-    if (webHandler && (!state.ssl || Date.now() - state.ssl.date > MS_DAYS_300)) {
+    // Generate new https keys if missing or over 300 days old
+    if (webHandler && (!state.ssl || Date.now() - state.ssl.date > ms_days_330)) {
         state.ssl = await meta.get("ssl-keys");
         let found = state.ssl !== undefined;
         if (state.sslDir) {
+            // Look for a key.pem and cert.pem file in
             const dir = await util.stat(state.sslDir);
             if (dir && dir.isDirectory()) {
                 const key = await util.stat(path.join(state.sslDir, 'key.pem'));
-                const cert = await util.stat(path.join(state.sslDir, 'cert.pem'));
-                if (key && key.isFile() && cert && cert.isFile()) {
+                const crt = await util.stat(path.join(state.sslDir, 'cert.pem'));
+                if (key && key.isFile() && crt && crt.isFile()) {
                     state.ssl = {
                         key: await util.read(path.join(state.sslDir, 'key.pem')),
                         cert: await util.read(path.join(state.sslDir, 'cert.pem')),
@@ -69,12 +73,13 @@ async function startServer(state) {
             }
         }
         if (!found) {
-            log({ generating: 'new SSL keys' });
+            log({ generating: 'https private key and x509 cert' });
             state.ssl = await crypto.createWebKeyAndCert();
             await meta.put("ssl-keys", state.ssl);
         }
     }
 
+    // Open secure web port handles customer/org requests
     if (webHandler) {
         servers.web = https.createServer({
             key: state.ssl.key,
@@ -83,37 +88,45 @@ async function startServer(state) {
         log({ startWebListener: state.webPort });
     }
 
+    // Start secure WebSocket handler
     if (wssHandler && servers.web) {
         const wss = servers.wss = new WebSocket.Server({ server: servers.web });
         wss.on('connection', wssHandler);
         wss.on('error', error => {
-            log({ wssServerError: error });
+            log({ wsServError: error });
         });
     }
 }
 
-function parseQuery(req, res, next) {
+// Adds a `parsed` object to the `req` request object
+function parse_query(req, res, next) {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const query = Object.fromEntries(url.searchParams.entries());
-    req.parsed = { url, query };
+    const parsed = req.parsed = { url, query };
+    // Add app_id and app_path if it's an app url
     if (req.url.startsWith("/app/")) {
         const tok = req.parsed.url.pathname.slice(1).split("/");
-        req.parsed.appId = tok[1];
-        req.parsed.appPath = tok.slice(2).join("/");
+        parsed.app_id = tok[1];
+        parsed.app_path = tok.slice(2).join("/");
     }
     next();
 }
 
-function notFoundHandler(req, res, next) {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
+// Most basic 404 handler
+function four_oh_four(req, res, next) {
+    res.writeHead(404, {'Content-Type': 'text/plain'});
     res.end('404 Not Found');
 }
 
+// Web-server handler to support browser-side proxy/api calls
+// In the browser, use the `web/lib/ws-net.js` class
 function wsProxyHandler(node, ws, wsMsg) {
     let { fn, topic, msg, mid, timeout } = util.parse(wsMsg);
+    // Ensure top is not null (which locate allows)
     topic = topic || '';
+    // Rewrite topics containing $ and replace with app-id
     if (topic.indexOf("$") >= 0) {
-        topic = topic.replace("$", ws.appId || 'unknown');
+        topic = topic.replace("$", ws.app_id || 'unknown');
     }
     switch (fn) {
         case 'publish':
@@ -121,6 +134,7 @@ function wsProxyHandler(node, ws, wsMsg) {
             break;
         case 'subscribe':
             node.subscribe(topic, (msg, cid, topic) => {
+                // Handler for messages sent to the subscribed topic
                 ws.send(util.json({ pub: topic, msg }));
             }, timeout);
             break;
@@ -135,18 +149,20 @@ function wsProxyHandler(node, ws, wsMsg) {
             });
             break;
         default:
-            ws.send(util.json({ mid, topic, error: `invalid function: ${fn}` }));
+            ws.send(util.json({ mid, topic, error: `invalid proxy fn: ${fn}` }));
             break;
     }
 }
 
-function wsProxyEndpoint(node, path = "/proxy.api", pass) {
+// Server-side endpoint for client web sockets talking to proxy (broker)
+function wsProxyPath(node, path = "/proxy.api", pass) {
     log({ installingWsProxy: path });
-    return function (ws, req) {
+    return function(ws, req) {
+        // Extract app-id from url
         if (req.url.startsWith("/app/")) {
-            const pathTokens = req.url.split('/');
-            req.url = "/" + pathTokens.slice(3).join('/');
-            ws.appId = pathTokens[2];
+            const pathTok = req.url.split('/');
+            req.url = "/" + pathTok.slice(3).join('/');
+            ws.app_id = pathTok[2];
         }
         if (req.url === path) {
             ws.on('message', (msg) => {
@@ -155,10 +171,12 @@ function wsProxyEndpoint(node, path = "/proxy.api", pass) {
             ws.on('error', error => {
                 log({ wsError: error });
             });
-            if (ws.appId) {
-                ws.send(util.json({ appId: ws.appId }));
+            if (ws.app_id) {
+                // If app connection, let app know its id
+                ws.send(util.json({ app_id: ws.app_id }));
             }
         } else {
+            // Optional pass-thru handler if it's not an app/proxied connection
             if (pass) {
                 return pass(ws, req);
             }
@@ -168,10 +186,10 @@ function wsProxyEndpoint(node, path = "/proxy.api", pass) {
     };
 }
 
-module.exports = {
-    startServer,
+Object.assign(exports, {
+    startWebListeners,
     wsProxyHandler,
-    wsProxyEndpoint,
-    notFoundHandler,
-    parseQuery,
-};
+    wsProxyPath,
+    four_oh_four,
+    parse_query,
+});
