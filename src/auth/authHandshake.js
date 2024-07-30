@@ -37,6 +37,7 @@ async function saveKey(filePath, key) {
   }
 }
 
+// Load a key from a file
 async function loadKey(filePath) {
   try {
     return await readFile(filePath, 'utf8');
