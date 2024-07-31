@@ -244,70 +244,94 @@ async function logout() {
     api.call("ssn_logout", { ssn }, ssn_heartbeat);
 }
 
+/**
+ * Send a heartbeat to the server to maintain the session.
+ * If a session cookie is present, send it along with the request.
+ * If user credentials are provided, attempt to authenticate.
+ * If an admin secret is provided, attempt to initialize the admin session.
+ * Update the context state and show/hide the login modal as needed.
+ * @param {string} user - username
+ * @param {string} pass - password
+ * @param {string} pass2 - optional confirmation password
+ * @param {string} secret - admin secret
+ */
 function ssn_heartbeat(user, pass, pass2, secret) {
+    // Clear the setTimeout timer for the next heartbeat
     clearTimeout(context.ssn_hb);
+
+    // Retrieve the session cookie from local storage
     const ssn = LS.get("session");
+
+    // If a session cookie is present, send it along with the request
+    // If user credentials are provided, attempt to authenticate
     if (ssn || (user && pass)) {
+        // Send a request to the server to authenticate the user
         context.api.pcall("user_auth", { ssn, user, pass, pass2, secret })
             .then((msg, error) => {
+                // Destructure the response message
                 const { sid, admin_init, user, org_admin } = msg;
-                console.log('msg', msg);
+
+                // If the server responded with an admin initialization request
                 if (admin_init) {
+                    // Hide the login error message and show the login initialization form
                     $("login-error").classList.add("hidden");
                     if (context.admin_init) {
+                        // Log the failed admin initialization attempt
                         console.log({ failed_admin_init: user });
+                        // Show the login modal with an error message
                         login_show("invalid secret", true);
                     } else {
                         show("login-init");
                     }
+                    // Set the admin initialization flag in the context state
                     context.admin_init = true;
                 } else {
-                    delete context.admin_init;
-                    context.org_admin = org_admin;
-                    context.ssn_hb = setTimeout(ssn_heartbeat, 5000);
-                    if (sid) {
-                        context.ssn = sid;
-                        LS.set("session", sid);
-                        // valid session cookie required to serve /app/ assets
+                    // If the server responded with a valid session
+                    delete context.admin_init; // Clear the admin initialization flag
+                    context.org_admin = org_admin; // Update the organization admin flag
+                    context.ssn_hb = setTimeout(ssn_heartbeat, 5000); // Set a timer for the next heartbeat
+                    if (sid) { // If a valid session cookie was returned
+                        context.ssn = sid; // Update the session cookie in the context state
+                        LS.set("session", sid); // Store the session cookie in local storage
+                        // Set the session cookie in the browser
                         document.cookie = 'rawh-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                         document.cookie = `rawh-session=${sid}`;
-                        if (context.admin_init) {
-                            modal.hide(true);
+                        if (context.admin_init) { // If the admin initialization flag is set
+                            modal.hide(true); // Hide the login modal
                         }
                     }
-                    if (context.login) {
-                        console.log({ login: sid, user });
-                        // run once only after successful login or
-                        // page/session relolad, not on heartbeats
+                    if (context.login) { // If this is the first successful login
+                        console.log({ login: sid, user }); // Log the successful login
+                        // If the user is an organization admin
                         if (org_admin) {
-                            context.admin = true;
-                            set_user_mode('admin');
-                            set_edit_mode('app');
-                        } else {
-                            context.admin = false;
-                            set_user_mode('user');
+                            context.admin = true; // Update the admin flag in the context state
+                            set_user_mode('admin'); // Set the user mode to admin
+                            set_edit_mode('app'); // Set the edit mode to app
+                        } else { // If the user is not an organization admin
+                            context.admin = false; // Update the admin flag in the context state
+                            set_user_mode('user'); // Set the user mode to user
                         }
-                        if (user) {
-                            set_iam(user, false);
+                        if (user) { // If a username was provided
+                            set_iam(user, false); // Set the IAM value in the context state and local storage
                         }
-                        delete context.login;
-                        modal.hide(true);
-                        if (!context.app_list) {
-                            context.app_list = (context.app_list || 0) + 1;
-                            app_list();
+                        delete context.login; // Clear the login flag in the context state
+                        modal.hide(true); // Hide the login modal
+                        if (!context.app_list) { // If the app list has not been loaded
+                            context.app_list = (context.app_list || 0) + 1; // Increment the app list load count
+                            app_list(); // Load the app list
                         }
                     }
                 }
             })
-            .catch(error => {
-                delete context.app_list;
-                delete context.admin_init;
-                LS.delete("session");
-                login_show(error);
-                console.log({ auth_error: error });
+            .catch(error => { // If there was an error authenticating or initializing the admin session
+                delete context.app_list; // Clear the app list load flag
+                delete context.admin_init; // Clear the admin initialization flag
+                LS.delete("session"); // Delete the session cookie from local storage
+                login_show(error); // Show the login modal with the error message
+                console.log({ auth_error: error }); // Log the authentication error
             });
-    } else {
-        login_show();
+    } else { // If neither a session cookie nor user credentials were provided
+        login_show(); // Show the login modal
     }
 }
 
