@@ -120,8 +120,8 @@ starts app the same way using app-specific containers
 
 - Write stuff that isn't susceptible to buffer overflow and memory leaks
 - Make sure the memory that the app references can't be altered
-- |-> it can only run code from that memory block
-- `-> And it can't be tricked to run code from another part of memory where a bad guy saved a malicious script
+- |-> and it can only run code from that memory block
+- `-> and it can't be tricked to run code from another part of memory where a bad guy saved a malicious script
 - Local storage can be tracked by local edr agent
 - Do not allow app to have code injected
 
