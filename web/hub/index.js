@@ -12,10 +12,8 @@ const context = {};
 
 loadHighlightingCSS(); // Load CSS for syntax highlighting
 
-/**
- * Retrieves and displays the list of organizations.
- */
 function org_list() {
+    // 0. Calls the call function with the command "org_list" and an empty object.
     call("org_list", {}).then(list => {
         const html = [
             '<div class="head">',
@@ -28,10 +26,14 @@ function org_list() {
             '<label>actions</label>',
             '</div>',
         ];
+        // 1. Processes the returned list of organizations.
         const orgs = context.orgs = {};
         for (let org of list) {
+            // 2. Constructs HTML to display organization details.
             const { uid, name, secret, creator, created, state, up } = org;
+            // 3. Updates the context.orgs object with the organization data.
             const date = dayjs(created).format('YYYY/MM/DD HH:mm');
+            // 4. Updates the inner HTML of the element with ID org-list.
             html.push([
                 `<div class="data${up ? " connected" : ""}">`,
                 `<label class="copyable">${name}</label>`,
