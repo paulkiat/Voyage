@@ -1,5 +1,5 @@
 /**
- * Main hub for VoyageAI that services customer/organizations
+ * Main hub for RawhAI that services customer/organizations
  * Acts as the master for all organizational meta-data
  * Collects log and usage data from organizations
  */
