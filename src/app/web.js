@@ -1,8 +1,8 @@
 // AI Travel Companion Web Application Frontend Service
 
-const { args, env } = require('../lib/util');
-const log = require('../lib/util').logpre('app');
-const web = require('../lib/web');
+const { args, env } = require('../lib/util.js');
+const log = require('../lib/util.js').logpre('app');
+const web = require('../lib/web.js');
 const state = require('./service.js').init();
 const express = require('express');
 const app_handler = express();
