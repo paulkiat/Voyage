@@ -1,4 +1,15 @@
-Add this to your styles.css
+
+/* Constraints Integration */
+/* 1. No Precomputation: Real-time Calculation is ensured through the use of transitions, keyframes, and animations in various classes. */
+/* 2. Performance Constraints: Ensuring performance by keeping transitions and animations lightweight and efficient. */
+/* 3. Exact Visualization: Precise visual feedback provided through animations, transitions, and visual effects (e.g., box-shadow). */
+/* 4. Robustness: Consistent use of transitions and animations to provide a seamless and unbreakable user experience. */
+
+/** Design Rules 
+* > Create a vector that points directly at the users eyes
+* > Rendering lighting against the tangent of this vector
+*/
+
 .dynamic-button {
     background-color: var(--secondary-color);
     color: white;
@@ -395,8 +406,8 @@ footer {
     animation: scaleIn var(--transition-speed) ease-out, rotateToUser var(--transition-speed) ease-in-out; /* Smooth Transitions */
 }
 /** Create a vector pointing directly at the user eye
-*   Transpose lighting vector to compute the tangent of the "eye-vector"
-*   Render lighting on tangent of "eye-vector"
+*   > Transpose lighting vector to compute the tangent of the "eye-vector"
+*   > Render lighting against the tangent of "eye-vector"
 */
 .dynamic-lighting {
     box-shadow: 0 4px 6px rgba(255, 255, 255, 0.2), 0 10px 20px rgba(0, 0, 0, 0.2); /* Dynamic Lighting Effects */
@@ -468,10 +479,5 @@ footer {
     animation: scaleIn var(--transition-speed) ease-out; /* Keyframes for Animations */
 }
 
-/* Constraints Integration */
-/* 1. No Precomputation: Real-time Calculation is ensured through the use of transitions, keyframes, and animations in various classes. */
-/* 2. Performance Constraints: Ensuring performance by keeping transitions and animations lightweight and efficient. */
-/* 3. Exact Visualization: Precise visual feedback provided through animations, transitions, and visual effects (e.g., box-shadow). */
-/* 4. Robustness: Consistent use of transitions and animations to provide a seamless and unbreakable user experience. */
 
 /* End of CSS */
