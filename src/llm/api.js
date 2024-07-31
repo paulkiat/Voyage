@@ -1,4 +1,4 @@
-// ESM modules require async import in node.js
+// weird ESM modules require async import in node.js
 //
 // usually will be requrired with an await:
 // const llm_api = await require('../llm/api').init();
