@@ -116,7 +116,7 @@ starts app the same way using app-specific containers
 | `web/hub`   | web admin interface for rawh hub                                |
 | `web/org`   | web admin and proxy interface for organization                  |
 
-### Security Constraints
+## Security Constraints
 
 - Write stuff that isn't susceptible to buffer overflow and memory leaks
 - Make sure the memory that the app references can't be altered
@@ -125,7 +125,7 @@ starts app the same way using app-specific containers
 - Local storage can be tracked by local edr agent
 - Do not allow app to have code injected
 
-### Rendering Constraints
+## Rendering Constraints
 
 - No Precomputation: Real-time Calculation is ensured through the use of transitions, keyframes, and animations in various classes
 - Performance Constraints: Ensuring performance by keeping transitions and animations lightweight and efficient
